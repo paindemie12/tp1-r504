@@ -1,0 +1,37 @@
+name: tests unitaires
+on: [push]
+jobs:
+  build:
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.10"]
+        os-version: ["ubuntu-22.04", "ubuntu-20.04"]
+    runs-on: ${{ matrix.os-version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python for Demo
+        uses: actions/setup-python@v4
+      - name: install
+        run: pip install pytest
+      - name: Run tests
+        run: pytest TP1/test.py
+      - name: Nom branche
+        run: echo "Nom de la branche :" ${{ github.ref }}
+      - name: Nom OS
+        run: echo "Système d'exploitation de la VM :" ${{ runner.os }}
+      - name: Set up Python for Demo
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Version python
+        run: echo "version de python :" ${{ matrix.python-version }}
+      - name: Set up Ubuntu
+        uses: actions/setup-python@v4
+        with:
+          os-version: ${{ matrix.os-version }}
+      - name: Version ubuntu
+        run: echo "Version de l'OS:" ${{ matrix.os-version }}
+      - name: Information sur l'OS
+        run: lsb_release -a
+        
+
